@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/caojun/DMSelectPickerView.git", :tag => "0.0.1" }
+  s.source       = { :git => "https://github.com/caojun/DMSelectPickerView.git", :tag => "0.0.2" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -92,7 +92,7 @@ Pod::Spec.new do |s|
   #
 
   #s.source_files  = "DMSelectPickerView", "DMSelectPickerViewDemo", "DMSelectPickerView/**/*.{h,m}", "DMSelectPickerViewDemo/**/*.{h,m}"
-   s.source_files  = 'DMSelectPickerView/DMSelectPickerView.{h,m}'
+   s.source_files  = 'DMSelectPickerView/DMSelectPickerView.{h,m,xib}'
   s.exclude_files = "DMSelectPickerView/Exclude"
 
   # s.public_header_files = "DMSelectPickerView/**/*.h"
