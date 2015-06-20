@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "DMSelectPickerView"
-  s.version      = "0.0.2"
+  s.version      = "0.0.3"
   s.summary      = ""
 
   s.description  = <<-DESC
@@ -40,7 +40,7 @@ Pod::Spec.new do |s|
   #
 
   # s.license      = "MIT (example)"
-  s.license        = 'MIT'
+  s.license        = { :type => "MIT", :file => "LICENSE" }
   # s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
 
@@ -55,7 +55,7 @@ Pod::Spec.new do |s|
   #
 
   # s.author             = { "caojun" => "email@address.com" }
-  s.author               = "caojun"
+  s.author               = { "caojun" => "caojengineer@126.com" }
   # Or just: s.author    = "caojun"
   # s.authors            = { "caojun" => "email@address.com" }
   # s.social_media_url   = "http://twitter.com/caojun"
@@ -80,7 +80,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/caojun/DMSelectPickerView.git", :tag => "0.0.2" }
+  s.source       = { :git => "https://github.com/caojun/DMSelectPickerView.git", :tag => "0.0.3" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -92,7 +92,7 @@ Pod::Spec.new do |s|
   #
 
   #s.source_files  = "DMSelectPickerView", "DMSelectPickerViewDemo", "DMSelectPickerView/**/*.{h,m}", "DMSelectPickerViewDemo/**/*.{h,m}"
-   s.source_files  = 'DMSelectPickerView/DMSelectPickerView.{h,m,xib}'
+  s.source_files  = 'DMSelectPickerView/*.{h,m,xib}'
   s.exclude_files = "DMSelectPickerView/Exclude"
 
   # s.public_header_files = "DMSelectPickerView/**/*.h"
