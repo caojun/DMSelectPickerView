@@ -24,10 +24,16 @@
 
 #import "DMSelectPickerView.h"
 
+static const CGFloat kDMSelectPickerBottomViewHeight = 243;
+
+
 @interface DMSelectPickerView ()<UIPickerViewDataSource, UIPickerViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UIButton *m_btnFinish;
-@property (weak, nonatomic) IBOutlet UIPickerView *m_dataPickerView;
+@property (nonatomic, strong) UIView *m_bottomView;
+@property (nonatomic, weak) UIButton *m_btnFinish;
+@property (nonatomic, weak) UIView *m_upSeperatorView;
+@property (nonatomic, weak) UIView *m_downSeperatorView;
+@property (nonatomic, weak) UIPickerView *m_dataPickerView;
 
 @end
 
@@ -39,18 +45,160 @@
 
 + (instancetype)selectPickerViewWithTitleArray:(NSArray *)titleArray;
 {
-    DMSelectPickerView *vc = [[[NSBundle mainBundle] loadNibNamed:[[self class] description] owner:nil options:nil] firstObject];
+    CGRect frame = [UIScreen mainScreen].bounds;
+    DMSelectPickerView *pickerView = [[self alloc] initWithFrame:frame];
+    pickerView.m_titleArray = titleArray;
     
-    vc.m_titleArray = titleArray;
-    
-    return vc;
+    return pickerView;
 }
 
-- (void)awakeFromNib
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        [self defaultSetting];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        [self defaultSetting];
+    }
+    
+    return self;
+}
+
+- (void)defaultSetting
 {
     self.backgroundColor = [UIColor clearColor];
+    
+    [self bottomViewCreate];
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    if (![self.subviews containsObject:self.m_bottomView])
+    {
+        [self addSubview:self.m_bottomView];
+    }
+    
+    [self bottomViewAdjustFrame];
+}
+
+#pragma mark - sub views
+
+- (void)bottomViewAdjustFrame
+{
+    CGFloat bottomViewH = kDMSelectPickerBottomViewHeight;
+    CGFloat bottomViewW = CGRectGetWidth(self.bounds);
+    CGFloat bottomViewX = 0;
+    CGFloat bottomViewY = CGRectGetHeight(self.bounds) - bottomViewH;
+    
+    self.m_bottomView.frame = (CGRect){bottomViewX, bottomViewY, bottomViewW, bottomViewH};
+    
+    CGFloat upSeperatorViewX = 0;
+    CGFloat upSeperatorViewY = 0;
+    CGFloat upSeperatorViewW = bottomViewW;
+    CGFloat upSeperatorViewH = 0.5;
+    self.m_upSeperatorView.frame = (CGRect){upSeperatorViewX, upSeperatorViewY, upSeperatorViewW, upSeperatorViewH};
+    
+    CGFloat btnFinishViewH = 40;
+    CGFloat btnFinishViewW = 60;
+    CGFloat btnFinishViewX = bottomViewW - 8 - btnFinishViewW;
+    CGFloat btnFinishViewY = upSeperatorViewY;
+    self.m_btnFinish.frame = (CGRect){btnFinishViewX, btnFinishViewY, btnFinishViewW, btnFinishViewH};
+    
+    CGFloat downSeperatorViewX = 0;
+    CGFloat downSeperatorViewY = btnFinishViewY + btnFinishViewH;
+    CGFloat downSeperatorViewW = bottomViewW;
+    CGFloat downSeperatorViewH = upSeperatorViewH;
+    
+    self.m_downSeperatorView.frame = (CGRect){downSeperatorViewX, downSeperatorViewY, downSeperatorViewW, downSeperatorViewH};
+    
+    
+    CGFloat pickerViewX = 0;
+    CGFloat pickerViewY = downSeperatorViewY + downSeperatorViewH;
+    CGFloat pickerViewW = bottomViewW;
+    CGFloat pickerViewH = bottomViewH - pickerViewY;
+    self.m_dataPickerView.frame = (CGRect){pickerViewX, pickerViewY, pickerViewW, pickerViewH};
+}
+
+- (void)bottomViewCreate
+{
+    if (nil == self.m_bottomView)
+    {
+        UIView *bottomView = [[UIView alloc] init];
+        bottomView.backgroundColor = [UIColor whiteColor];
+        [self addSubview:bottomView];
+        self.m_bottomView = bottomView;
+        
+        [self btnFinishCreate];
+        [self seperatorViewCreate];
+        [self pickerViewCreate];
+    }
+}
+
+- (void)btnFinishCreate
+{
+    if (nil == self.m_btnFinish)
+    {
+        UIButton *btnFinish = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.m_bottomView addSubview:btnFinish];
+        self.m_btnFinish = btnFinish;
+        
+        [btnFinish setTitle:@"完成" forState:UIControlStateNormal];
+        [btnFinish setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btnFinish setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+        [btnFinish addTarget:self action:@selector(btnFinishClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
+- (void)seperatorViewCreate
+{
+    if (nil == self.m_upSeperatorView)
+    {
+        UIView *upView = [[UIView alloc] init];
+        [self.m_bottomView addSubview:upView];
+        upView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        
+        self.m_upSeperatorView = upView;
+    }
+    
+    if (nil == self.m_downSeperatorView)
+    {
+        UIView *downView = [[UIView alloc] init];
+        [self.m_bottomView addSubview:downView];
+        downView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        
+        self.m_downSeperatorView = downView;
+    }
+}
+
+- (void)pickerViewCreate
+{
+    if (nil == self.m_dataPickerView)
+    {
+        UIPickerView *dataPickerView = [[UIPickerView alloc] init];
+        [self.m_bottomView addSubview:dataPickerView];
+        self.m_dataPickerView = dataPickerView;
+        
+        dataPickerView.delegate = self;
+        dataPickerView.dataSource = self;
+    }
+}
+
+
+
+
+#pragma mark -
 - (void)showInView:(UIView *)view
 {
     [view addSubview:self];

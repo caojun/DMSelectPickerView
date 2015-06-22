@@ -15,7 +15,6 @@
 		8534F6671B340D3500073762 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8534F6651B340D3500073762 /* LaunchScreen.xib */; };
 		8534F6731B340D3500073762 /* DMSelectPickerViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8534F6721B340D3500073762 /* DMSelectPickerViewDemoTests.m */; };
 		8534F6801B340D5800073762 /* DMSelectPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8534F67E1B340D5800073762 /* DMSelectPickerView.m */; };
-		8534F6811B340D5800073762 /* DMSelectPickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8534F67F1B340D5800073762 /* DMSelectPickerView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +43,6 @@
 		8534F6721B340D3500073762 /* DMSelectPickerViewDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DMSelectPickerViewDemoTests.m; sourceTree = "<group>"; };
 		8534F67D1B340D5800073762 /* DMSelectPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMSelectPickerView.h; sourceTree = "<group>"; };
 		8534F67E1B340D5800073762 /* DMSelectPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMSelectPickerView.m; sourceTree = "<group>"; };
-		8534F67F1B340D5800073762 /* DMSelectPickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DMSelectPickerView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,7 +128,6 @@
 			children = (
 				8534F67D1B340D5800073762 /* DMSelectPickerView.h */,
 				8534F67E1B340D5800073762 /* DMSelectPickerView.m */,
-				8534F67F1B340D5800073762 /* DMSelectPickerView.xib */,
 			);
 			name = DMSelectPickerView;
 			path = ../DMSelectPickerView;
@@ -217,7 +214,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8534F6621B340D3500073762 /* Main.storyboard in Resources */,
-				8534F6811B340D5800073762 /* DMSelectPickerView.xib in Resources */,
 				8534F6671B340D3500073762 /* LaunchScreen.xib in Resources */,
 				8534F6641B340D3500073762 /* Images.xcassets in Resources */,
 			);
