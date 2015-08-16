@@ -59,6 +59,12 @@
 
 @property (nonatomic, strong) UIFont *titleFont;
 
+@property (nonatomic, strong) UIColor *titleColor;
+
+@property (nonatomic, strong) UIColor *topBtnTextColor;
+@property (nonatomic, strong) UIColor *topBtnHighlightColor;
+@property (nonatomic, strong) UIView *topBackgroundView;
+
 @property (nonatomic, assign) CGFloat rowHeight;
 
 

@@ -25,6 +25,7 @@
 #import "DMSelectPickerView.h"
 
 static const CGFloat kDMSelectPickerBottomViewHeight = 243;
+static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 
 
 @interface DMSelectPickerView ()<UIPickerViewDataSource, UIPickerViewDelegate>
@@ -110,7 +111,7 @@ static const CGFloat kDMSelectPickerBottomViewHeight = 243;
     CGFloat upSeperatorViewH = 0.5;
     self.m_upSeperatorView.frame = (CGRect){upSeperatorViewX, upSeperatorViewY, upSeperatorViewW, upSeperatorViewH};
     
-    CGFloat btnFinishViewH = 40;
+    CGFloat btnFinishViewH = kDMSelectPickerBtnFinishViewH;
     CGFloat btnFinishViewW = 60;
     CGFloat btnFinishViewX = bottomViewW - 8 - btnFinishViewW;
     CGFloat btnFinishViewY = upSeperatorViewY;
@@ -136,7 +137,7 @@ static const CGFloat kDMSelectPickerBottomViewHeight = 243;
     if (nil == self.m_bottomView)
     {
         UIView *bottomView = [[UIView alloc] init];
-        bottomView.backgroundColor = [UIColor whiteColor];
+        bottomView.backgroundColor = [UIColor clearColor];
         [self addSubview:bottomView];
         self.m_bottomView = bottomView;
         
@@ -192,6 +193,7 @@ static const CGFloat kDMSelectPickerBottomViewHeight = 243;
         
         dataPickerView.delegate = self;
         dataPickerView.dataSource = self;
+        dataPickerView.backgroundColor = [UIColor clearColor];
     }
 }
 
@@ -288,6 +290,7 @@ static const CGFloat kDMSelectPickerBottomViewHeight = 243;
     label.text = self.m_titleArray[row];
     label.font = self.titleFont;
     [label sizeToFit];
+    label.textColor = _titleColor;
     
     return label;
 }
@@ -324,6 +327,40 @@ static const CGFloat kDMSelectPickerBottomViewHeight = 243;
     _rowHeight = rowHeight;
     
     [self.m_dataPickerView reloadAllComponents];
+}
+
+- (void)setTitleColor:(UIColor *)titleColor
+{
+    _titleColor = titleColor;
+    
+    [self.m_dataPickerView reloadAllComponents];
+}
+
+- (void)setTopBtnTextColor:(UIColor *)topBtnTextColor
+{
+    _topBtnTextColor = topBtnTextColor;
+    
+    [self.m_btnFinish setTitleColor:topBtnTextColor forState:UIControlStateNormal];
+}
+
+- (void)setTopBtnHighlightColor:(UIColor *)topBtnHighlightColor
+{
+    _topBtnHighlightColor = topBtnHighlightColor;
+    
+    [self.m_btnFinish setTitleColor:topBtnHighlightColor forState:UIControlStateHighlighted];
+}
+
+- (void)setTopBackgroundView:(UIView *)topBackgroundView
+{
+    _topBackgroundView = topBackgroundView;
+    
+    CGFloat bottomViewH = kDMSelectPickerBottomViewHeight;
+    CGFloat bottomViewW = CGRectGetWidth(self.bounds);
+    CGFloat bottomViewX = 0;
+    CGFloat bottomViewY = CGRectGetHeight(self.bounds) - bottomViewH;
+    topBackgroundView.frame = (CGRect){bottomViewX, bottomViewY, bottomViewW, kDMSelectPickerBtnFinishViewH};
+    
+    [self insertSubview:topBackgroundView atIndex:0];
 }
 
 @end

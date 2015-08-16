@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.view.backgroundColor = [UIColor lightGrayColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,6 +31,12 @@
     NSArray *array = @[@"男", @"女"];
     DMSelectPickerView *pickerView = [DMSelectPickerView selectPickerViewWithTitleArray:array];
     pickerView.delegate = self;
+    pickerView.titleColor = [UIColor blueColor];
+    pickerView.topBtnTextColor = [UIColor redColor];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    view.backgroundColor = [UIColor orangeColor];
+    pickerView.topBackgroundView = view;
+    
     [pickerView showInView:self.view];
 }
 
