@@ -363,4 +363,11 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     [self insertSubview:topBackgroundView atIndex:0];
 }
 
+- (void)setSelectViewBackgroundColor:(UIColor *)selectViewBackgroundColor
+{
+    _selectViewBackgroundColor = selectViewBackgroundColor;
+    
+    self.m_bottomView.backgroundColor = selectViewBackgroundColor;
+}
+
 @end

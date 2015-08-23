@@ -67,6 +67,11 @@
 
 @property (nonatomic, assign) CGFloat rowHeight;
 
+/**
+ *  选择器的背景
+ */
+@property (nonatomic, strong) UIColor *selectViewBackgroundColor;
+
 
 + (instancetype)selectPickerViewWithTitleArray:(NSArray *)titleArray;
 

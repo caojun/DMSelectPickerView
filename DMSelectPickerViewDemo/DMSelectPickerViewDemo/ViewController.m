@@ -36,6 +36,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
     view.backgroundColor = [UIColor orangeColor];
     pickerView.topBackgroundView = view;
+    pickerView.selectViewBackgroundColor = [UIColor purpleColor];
     
     [pickerView showInView:self.view];
 }
