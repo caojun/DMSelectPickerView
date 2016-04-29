@@ -124,11 +124,11 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     
     self.m_downSeperatorView.frame = (CGRect){downSeperatorViewX, downSeperatorViewY, downSeperatorViewW, downSeperatorViewH};
     
-    
-    CGFloat pickerViewX = 0;
+    //左右居中显示
     CGFloat pickerViewY = downSeperatorViewY + downSeperatorViewH;
-    CGFloat pickerViewW = bottomViewW;
+    CGFloat pickerViewW = CGRectGetWidth(self.m_dataPickerView.frame);
     CGFloat pickerViewH = bottomViewH - pickerViewY;
+    CGFloat pickerViewX = (bottomViewW - pickerViewW) / 2;
     self.m_dataPickerView.frame = (CGRect){pickerViewX, pickerViewY, pickerViewW, pickerViewH};
 }
 
