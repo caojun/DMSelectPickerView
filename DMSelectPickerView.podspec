@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
 
   s.name         = "DMSelectPickerView"
   s.version      = "0.0.7"
-  s.summary      = ""
+  s.summary      = "自定义选择PikerView控件"
 
   s.description  = <<-DESC
                    A longer description of DMSelectPickerView in Markdown format.
