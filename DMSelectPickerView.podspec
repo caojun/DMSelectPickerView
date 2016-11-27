@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "DMSelectPickerView"
-  s.version      = "0.0.7"
+  s.version      = "1.0.0"
   s.summary      = "自定义选择PikerView控件"
 
   s.description  = <<-DESC

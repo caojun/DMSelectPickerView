@@ -1,7 +1,7 @@
 /**
  The MIT License (MIT)
  
- Copyright (c) 2015 DreamCao
+ Copyright (c) 2016 DreamCao
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -44,7 +44,7 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 @synthesize rowHeight = _rowHeight;
 @synthesize curSelID = _curSelID;
 
-+ (instancetype)selectPickerViewWithTitleArray:(NSArray *)titleArray;
++ (instancetype)selectPickerViewWithTitleArray:(nullable NSArray<NSString *> *)titleArray
 {
     CGRect frame = [UIScreen mainScreen].bounds;
     DMSelectPickerView *pickerView = [[self alloc] initWithFrame:frame];
@@ -198,8 +198,6 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 }
 
 
-
-
 #pragma mark -
 - (void)showInView:(UIView *)view
 {
@@ -215,11 +213,7 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
         tempframe.origin.y = view.frame.origin.y + view.frame.size.height - tempframe.size.height;
         
         self.frame = tempframe;
-        
-        NSLog(@"frame : %@", NSStringFromCGRect(tempframe));
-    } completion:^(BOOL finished) {
-        
-    }];
+    } completion:nil];
 }
 
 - (void)dismiss
@@ -235,14 +229,14 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     }];
 }
 
-- (void)setM_titleArray:(NSArray *)m_titleArray
+- (void)setM_titleArray:(NSArray<NSString *> *)m_titleArray
 {
     _m_titleArray = m_titleArray;
     
     [self.m_dataPickerView reloadAllComponents];
 }
 
-- (IBAction)btnFinishClick:(UIButton *)sender
+- (void)btnFinishClick:(UIButton *)sender
 {
     if ([self.delegate respondsToSelector:@selector(selectPickerViewClickBtnFinish:)])
     {
@@ -257,6 +251,16 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     [self dismiss];
 }
 
+- (void)setCurSelID:(NSInteger)curSelID
+{
+    _curSelID = curSelID;
+    
+    if (curSelID < self.m_titleArray.count)
+    {
+        [self.m_dataPickerView selectRow:curSelID inComponent:0 animated:NO];
+    }
+}
+
 - (NSInteger)curSelID
 {
     _curSelID = [self.m_dataPickerView selectedRowInComponent:0];
@@ -266,13 +270,11 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 
 
 #pragma mark - UIPickerViewDataSource
-// returns the number of 'columns' to display.
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 1;
 }
 
-// returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     return self.m_titleArray.count;
@@ -284,9 +286,18 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 }
 
 #pragma mark - UIPickerViewDelegate
-- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view
+- (UIView *)pickerView:(UIPickerView *)pickerView
+            viewForRow:(NSInteger)row
+          forComponent:(NSInteger)component
+           reusingView:(UIView *)view
 {
-    UILabel *label = [[UILabel alloc] init];
+    UILabel *label = nil;
+    
+    if (nil == view)
+    {
+        label = [[UILabel alloc] init];
+    }
+    
     label.text = self.m_titleArray[row];
     label.font = self.titleFont;
     [label sizeToFit];

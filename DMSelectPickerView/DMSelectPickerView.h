@@ -1,7 +1,7 @@
 /**
  The MIT License (MIT)
  
- Copyright (c) 2015 DreamCao
+ Copyright (c) 2016 DreamCao
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -24,67 +24,53 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DMSelectPickerView;
 
 @protocol DMSelectPickerViewDelegate <NSObject>
 
 @optional
-/**
- *  点击完成按钮
- *
- *  @param view
- */
+/// 点击完成按钮
 - (void)selectPickerViewClickBtnFinish:(DMSelectPickerView *)view;
 
 @end
 
+
+
 @interface DMSelectPickerView : UIView
 
-
-
-/**
- *  代理
- */
 @property (nonatomic, weak) id<DMSelectPickerViewDelegate> delegate;
 
-/**
- *  当前选择的ID
- */
-@property (nonatomic, assign, readonly) NSInteger curSelID;
+/// 当前选择的ID
+@property (nonatomic, assign) NSInteger curSelID;
 
-/**
- *  选择数据源, 里面存放 NSString
- */
-@property (nonatomic, strong) NSArray *m_titleArray;
+/// 标题数组
+@property (nullable, nonatomic, strong) NSArray<NSString *> *m_titleArray;
+/// 标题字体
+@property (nullable, nonatomic, strong) UIFont *titleFont;
+/// 标题颜色
+@property (nullable, nonatomic, strong) UIColor *titleColor;
 
-@property (nonatomic, strong) UIFont *titleFont;
+/// 顶部工具条字体颜色
+@property (nullable, nonatomic, strong) UIColor *topBtnTextColor;
+/// 顶部工具条字体点击颜色
+@property (nullable, nonatomic, strong) UIColor *topBtnHighlightColor;
+/// 顶部工具条背景颜色
+@property (nullable, nonatomic, strong) UIView *topBackgroundView;
 
-@property (nonatomic, strong) UIColor *titleColor;
-
-@property (nonatomic, strong) UIColor *topBtnTextColor;
-@property (nonatomic, strong) UIColor *topBtnHighlightColor;
-@property (nonatomic, strong) UIView *topBackgroundView;
-
+/// 选择器行高
 @property (nonatomic, assign) CGFloat rowHeight;
 
-/**
- *  选择器的背景
- */
+/// 选择器背景颜色
 @property (nonatomic, strong) UIColor *selectViewBackgroundColor;
 
 
-+ (instancetype)selectPickerViewWithTitleArray:(NSArray *)titleArray;
-
-/**
- *  显示view
- *
- *  @param view
- */
++ (instancetype)selectPickerViewWithTitleArray:(nullable NSArray<NSString *> *)titleArray;
 - (void)showInView:(UIView *)view;
-
-/**
- *  消失,带有动画
- */
 - (void)dismiss;
 
 @end
+
+NS_ASSUME_NONNULL_END
+

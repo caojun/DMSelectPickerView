@@ -28,7 +28,7 @@
 
 - (IBAction)btnSelect:(UIButton *)sender
 {
-    NSArray *array = @[@"男", @"女"];
+    NSArray *array = @[@"男1", @"女1", @"男2", @"女2", @"男3", @"女3"];
     DMSelectPickerView *pickerView = [DMSelectPickerView selectPickerViewWithTitleArray:array];
     pickerView.delegate = self;
     pickerView.titleColor = [UIColor blueColor];
@@ -36,7 +36,8 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
     view.backgroundColor = [UIColor orangeColor];
     pickerView.topBackgroundView = view;
-    pickerView.selectViewBackgroundColor = [UIColor purpleColor];
+    pickerView.selectViewBackgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
+    pickerView.curSelID = 5;
     
     [pickerView showInView:self.view];
 }
