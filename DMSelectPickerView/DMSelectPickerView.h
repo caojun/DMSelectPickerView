@@ -44,9 +44,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 当前选择的ID
 @property (nonatomic, assign) NSInteger curSelID;
+/// 子标题选中的ID
+@property (nonatomic, assign) NSInteger subSelID;
 
 /// 标题数组
 @property (nullable, nonatomic, strong) NSArray<NSString *> *m_titleArray;
+/// 子标题数组
+@property (nullable, nonatomic, strong) NSArray<NSString *> *m_subTitleArray;
 /// 标题字体
 @property (nullable, nonatomic, strong) UIFont *titleFont;
 /// 标题颜色
@@ -67,6 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 + (instancetype)selectPickerViewWithTitleArray:(nullable NSArray<NSString *> *)titleArray;
++ (instancetype)selectPickerViewWithTitleArray:(nullable NSArray<NSString *> *)titleArray
+                             withSubTitleArray:(nullable NSArray<NSString *> *)subTitleArray;
 - (void)showInView:(UIView *)view;
 - (void)dismiss;
 

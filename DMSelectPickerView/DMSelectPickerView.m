@@ -43,12 +43,24 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 @synthesize titleFont = _titleFont;
 @synthesize rowHeight = _rowHeight;
 @synthesize curSelID = _curSelID;
+@synthesize subSelID = _subSelID;
 
 + (instancetype)selectPickerViewWithTitleArray:(nullable NSArray<NSString *> *)titleArray
 {
     CGRect frame = [UIScreen mainScreen].bounds;
     DMSelectPickerView *pickerView = [[self alloc] initWithFrame:frame];
     pickerView.m_titleArray = titleArray;
+    
+    return pickerView;
+}
+
++ (instancetype)selectPickerViewWithTitleArray:(nullable NSArray<NSString *> *)titleArray
+                             withSubTitleArray:(nullable NSArray<NSString *> *)subTitleArray
+{
+    CGRect frame = [UIScreen mainScreen].bounds;
+    DMSelectPickerView *pickerView = [[self alloc] initWithFrame:frame];
+    pickerView.m_titleArray = titleArray;
+    pickerView.m_subTitleArray = subTitleArray;
     
     return pickerView;
 }
@@ -126,7 +138,7 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     
     //左右居中显示
     CGFloat pickerViewY = downSeperatorViewY + downSeperatorViewH;
-    CGFloat pickerViewW = CGRectGetWidth(self.m_dataPickerView.frame);
+    CGFloat pickerViewW = bottomViewW - 20 * 2;
     CGFloat pickerViewH = bottomViewH - pickerViewY;
     CGFloat pickerViewX = (bottomViewW - pickerViewW) / 2;
     self.m_dataPickerView.frame = (CGRect){pickerViewX, pickerViewY, pickerViewW, pickerViewH};
@@ -231,7 +243,16 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 
 - (void)setM_titleArray:(NSArray<NSString *> *)m_titleArray
 {
+    _curSelID = -1;
     _m_titleArray = m_titleArray;
+    
+    [self.m_dataPickerView reloadAllComponents];
+}
+
+- (void)setM_subTitleArray:(NSArray<NSString *> *)m_subTitleArray
+{
+    _subSelID = -1;
+    _m_subTitleArray = m_subTitleArray;
     
     [self.m_dataPickerView reloadAllComponents];
 }
@@ -268,16 +289,61 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     return _curSelID;
 }
 
+- (void)setSubSelID:(NSInteger)subSelID
+{
+    _subSelID = subSelID;
+    
+    if (subSelID < self.m_subTitleArray.count)
+    {
+        [self.m_dataPickerView selectRow:subSelID inComponent:1 animated:NO];
+    }
+}
+
+- (NSInteger)subSelID
+{
+    if (self.m_subTitleArray.count > 0)
+    {
+        _subSelID = [self.m_dataPickerView selectedRowInComponent:1];
+        
+        return _subSelID;
+    }
+    
+    return -1;
+}
 
 #pragma mark - UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    return 1;
+    NSInteger number = 1;
+    
+    if (self.m_subTitleArray.count > 0)
+    {
+        number++;
+    }
+    
+    return number;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
-    return self.m_titleArray.count;
+    if (0 == component)
+    {
+        return self.m_titleArray.count;
+    }
+    
+    return self.m_subTitleArray.count;
+}
+
+#pragma mark - UIPickerViewDelegate
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
+    NSInteger count = [self numberOfComponentsInPickerView:pickerView];
+    
+    CGFloat width = CGRectGetWidth(self.m_dataPickerView.frame);
+    
+    CGFloat itemWidth = floorf(width / count) - 70;
+    
+    return itemWidth;
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
@@ -285,7 +351,6 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     return self.rowHeight;
 }
 
-#pragma mark - UIPickerViewDelegate
 - (UIView *)pickerView:(UIPickerView *)pickerView
             viewForRow:(NSInteger)row
           forComponent:(NSInteger)component
@@ -297,11 +362,28 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     {
         label = [[UILabel alloc] init];
     }
+    else
+    {
+        label = (UILabel *)view;
+    }
     
-    label.text = self.m_titleArray[row];
+    if (0 == component)
+    {
+        label.text = self.m_titleArray[row];
+    }
+    else
+    {
+        label.text = self.m_subTitleArray[row];
+    }
+    
+    label.textAlignment = NSTextAlignmentCenter;
     label.font = self.titleFont;
-    [label sizeToFit];
+    CGRect frame = CGRectZero;
+    frame.size.height = self.rowHeight;
+    frame.size.width = [self pickerView:pickerView widthForComponent:component];
+    label.frame = frame;
     label.textColor = _titleColor;
+    label.backgroundColor = [UIColor clearColor];
     
     return label;
 }

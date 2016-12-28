@@ -29,7 +29,8 @@
 - (IBAction)btnSelect:(UIButton *)sender
 {
     NSArray *array = @[@"男1", @"女1", @"男2", @"女2", @"男3", @"女3"];
-    DMSelectPickerView *pickerView = [DMSelectPickerView selectPickerViewWithTitleArray:array];
+    NSArray *subArray = @[@"male1", @"female2", @"male2", @"female2", @"male3", @"female3"];
+    DMSelectPickerView *pickerView = [DMSelectPickerView selectPickerViewWithTitleArray:array withSubTitleArray:subArray];
     pickerView.delegate = self;
     pickerView.titleColor = [UIColor blueColor];
     pickerView.topBtnTextColor = [UIColor redColor];
@@ -38,6 +39,7 @@
     pickerView.topBackgroundView = view;
     pickerView.selectViewBackgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
     pickerView.curSelID = 5;
+    pickerView.subSelID = 3;
     
     [pickerView showInView:self.view];
 }
@@ -45,7 +47,7 @@
 #pragma mark - DMSelectPickerViewDelegate
 - (void)selectPickerViewClickBtnFinish:(DMSelectPickerView *)view
 {
-    NSLog(@"select id = %@", @(view.curSelID));
+    NSLog(@"select id = %@, subId = %@", @(view.curSelID), @(view.subSelID));
 }
 
 @end
