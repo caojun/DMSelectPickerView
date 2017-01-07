@@ -94,24 +94,12 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
     [self bottomViewCreate];
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    if (![self.subviews containsObject:self.m_bottomView])
-    {
-        [self addSubview:self.m_bottomView];
-    }
-    
-    [self bottomViewAdjustFrame];
-}
-
 #pragma mark - sub views
 
 - (void)bottomViewAdjustFrame
 {
     CGFloat bottomViewH = kDMSelectPickerBottomViewHeight;
-    CGFloat bottomViewW = CGRectGetWidth(self.bounds);
+    CGFloat bottomViewW = CGRectGetWidth([UIScreen mainScreen].bounds);
     CGFloat bottomViewX = 0;
     CGFloat bottomViewY = CGRectGetHeight(self.bounds) - bottomViewH;
     
@@ -156,6 +144,10 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
         [self btnFinishCreate];
         [self seperatorViewCreate];
         [self pickerViewCreate];
+        
+        [self addSubview:self.m_bottomView];
+        
+        [self bottomViewAdjustFrame];
     }
 }
 
@@ -215,16 +207,20 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 {
     [view addSubview:self];
     
-    CGRect frame = self.frame;
+    CGRect frame = self.m_bottomView.frame;
     frame.size.width = view.frame.size.width;
     frame.origin.y = view.frame.origin.y + view.frame.size.height;
-    self.frame = frame;
+    self.m_bottomView.frame = frame;
+    
+    self.backgroundColor = [UIColor clearColor];
     
     [UIView animateWithDuration:0.25 animations:^{
-        CGRect tempframe = self.frame;
+        CGRect tempframe = self.m_bottomView.frame;
         tempframe.origin.y = view.frame.origin.y + view.frame.size.height - tempframe.size.height;
         
-        self.frame = tempframe;
+        self.m_bottomView.frame = tempframe;
+        
+        self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.4];
     } completion:nil];
 }
 
@@ -232,10 +228,11 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 {
     [UIView animateWithDuration:0.25 animations:^{
         UIView *superView = self.superview;
-        CGRect tempframe = self.frame;
+        CGRect tempframe = self.m_bottomView.frame;
         tempframe.origin.y = superView.frame.origin.y + superView.frame.size.height;
         
-        self.frame = tempframe;
+        self.m_bottomView.frame = tempframe;
+        self.backgroundColor = [UIColor clearColor];
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
@@ -447,13 +444,13 @@ static const CGFloat kDMSelectPickerBtnFinishViewH = 40;
 {
     _topBackgroundView = topBackgroundView;
     
-    CGFloat bottomViewH = kDMSelectPickerBottomViewHeight;
-    CGFloat bottomViewW = CGRectGetWidth(self.bounds);
+    CGFloat bottomViewH = kDMSelectPickerBtnFinishViewH;
+    CGFloat bottomViewW = CGRectGetWidth(self.m_bottomView.bounds);
     CGFloat bottomViewX = 0;
-    CGFloat bottomViewY = CGRectGetHeight(self.bounds) - bottomViewH;
-    topBackgroundView.frame = (CGRect){bottomViewX, bottomViewY, bottomViewW, kDMSelectPickerBtnFinishViewH};
+    CGFloat bottomViewY = 0;
+    topBackgroundView.frame = (CGRect){bottomViewX, bottomViewY, bottomViewW, bottomViewH};
     
-    [self insertSubview:topBackgroundView atIndex:0];
+    [self.m_bottomView insertSubview:topBackgroundView atIndex:0];
 }
 
 - (void)setSelectViewBackgroundColor:(UIColor *)selectViewBackgroundColor
